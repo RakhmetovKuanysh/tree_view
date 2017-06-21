@@ -12,10 +12,12 @@ class Leaf extends Component {
 			let id = this.props.id;
 			let arr = this.props.getArray(id);
 			list = arr.map(l => (
-				<div className="parent">
-					<h3>{l.name}</h3>
-					<p>{l.description}</p>
-					{console.log(l.name)}
+				<div className="parent" key={l.id}>
+					<div className="info">
+						<input type="text" value={l.name} onChange={(e) => this.props.handleChangeTit(e, l.id)}/>
+						<input type="text" className="descInput" value={l.description}
+						 onChange={(e) => this.props.handleChangeDesc(e, l.id)}/>
+					</div>
 					<button onClick={() => this.props.changeClick(l.id)}>Show</button>
 					<hr/>
 					<Leaf 
@@ -27,6 +29,8 @@ class Leaf extends Component {
 						isOpened={l.isOpened}
 						changeClick={this.props.changeClick}
 						getArray={this.props.getArray}
+						handleChangeTit={this.props.handleChangeTit}
+						handleChangeDesc={this.props.handleChangeDesc}
 					/>
 				</div>
 			));

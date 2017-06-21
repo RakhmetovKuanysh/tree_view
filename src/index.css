@@ -23,12 +23,35 @@ p{
 	margin: 0 auto;
 }
 
-.anotherList{
-
+.anotherList {
 	margin-left: 20px;
 }
 
-.anotherLeaf{
-
+.anotherLeaf {
 	margin-left: 40px;
+}
+input {
+	border: none;
+	font-size: 20px;
+}
+
+input:focus {
+	border: none;
+	outline: none;
+}
+
+.edit_button {
+	background-color: transparent;
+	border: none;
+	padding: 0 10px 0 10px;
+}
+
+.info {
+	display: flex;
+	flex-direction: column;
+}
+
+.descInput {
+	font-size: 12px;
+	padding: 5px 0 5px 5px;
 }

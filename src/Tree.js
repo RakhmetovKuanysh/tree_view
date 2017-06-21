@@ -122,6 +122,8 @@ class Tree extends Component {
 		}
 		this.getArray = this.getArray.bind(this);
 		this.handleClick = this.handleClick.bind(this);
+		this.changeStringTit = this.changeStringTit.bind(this);
+		this.changeStringDesc = this.changeStringDesc.bind(this);
 	}
 
 	handleClick(e){
@@ -143,12 +145,45 @@ class Tree extends Component {
 		return this.state.chapter.filter(l => l.parId === e);
 	}
 
+	changeStringTit(e, id) {
+		console.log(e.target.value);
+		let arr = this.state.chapter.slice();
+		let n = arr.find(l => l.id === id);
+		n.name = e.target.value;
+
+		arr.map(l => (
+			l.id === id ? n : l
+		))
+
+		this.setState({
+			chapter: arr,
+		})
+	}
+
+	changeStringDesc(e, id) {
+		console.log(e.target.value);
+		let arr = this.state.chapter.slice();
+		let n = arr.find(l => l.id === id);
+		n.description = e.target.value;
+
+		arr.map(l => (
+			l.id === id ? n : l
+		))
+
+		this.setState({
+			chapter: arr,
+		})
+	}
+
 	render() {
 		let arr = this.state.chapter.filter(l => l.parId === 0);
 		let list = arr.map(l => (
-			<div className="parent">
-				<h3>{l.name}</h3>
-				<p>{l.description}</p>
+			<div className="parent" key={l.id}>
+				<div className="info">
+					<input type="text" value={l.name} onChange={(e) => this.changeStringTit(e, l.id)}/>
+					<input type="text" className="descInput"  
+					value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)}/>
+				</div>
 				<button onClick={() => this.handleClick(l.id)}>Show</button>
 				<hr/>
 				<Leaf 
@@ -160,6 +195,8 @@ class Tree extends Component {
 					isOpened={l.isOpened}
 					changeClick={this.handleClick}
 					getArray={this.getArray}
+					handleChangeTit={this.changeStringTit}
+					handleChangeDesc={this.changeStringDesc}
 				/>
 			</div>
 		))
