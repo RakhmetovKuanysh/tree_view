@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Leaf extends Component {
 	constructor(props) {
@@ -14,11 +15,13 @@ class Leaf extends Component {
 			list = arr.map(l => (
 				<div className="parent" key={l.id}>
 					<div className="info">
-						<input type="text" value={l.name} onChange={(e) => this.props.handleChangeTit(e, l.id)}/>
-						<input type="text" className="descInput" value={l.description}
+						<div className="title">
+							<img className="arrows" src={l.src} onClick={() => this.props.changeClick(l.id)}/>
+							<input className="name" type="text" value={l.name} onChange={(e) => this.props.handleChangeTit(e, l.id)}/>
+						</div>
+						<textarea rows="10" cols="50" className="descInput" value={l.description}
 						 onChange={(e) => this.props.handleChangeDesc(e, l.id)}/>
 					</div>
-					<button onClick={() => this.props.changeClick(l.id)}>Show</button>
 					<hr/>
 					<Leaf 
 						key={l.id} 
@@ -39,11 +42,21 @@ class Leaf extends Component {
 	}
 
 	render() {
+		const transitionOptions = {
+			transitionName: "fade",
+			transitionEnterTimeout: 500,
+			transitionLeaveTimeout: 400
+		};
 		return (
-			<div className="anotherList">
-				{this.handleChange()}
+
+			<div className="leafs">
+				<ReactCSSTransitionGroup {...transitionOptions}>
+					{this.handleChange()}
+				</ReactCSSTransitionGroup>
 			</div>
+
 		);
+
 	}
 }
 

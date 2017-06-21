@@ -1,5 +1,6 @@
 import React, { Component } from 'react' 
 import Leaf from './Leaf.js'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Tree extends Component {
 	constructor(props) {
@@ -10,7 +11,8 @@ class Tree extends Component {
 		            id: 1,
 		            name: "1",
 		            description: "Описание темы 1",
-		            isOpened: false,
+		            isOpened:false,
+		            src: require("./right.png"),
 		            parId: 0,
 		        },
 		        {
@@ -18,6 +20,7 @@ class Tree extends Component {
 		            name: "1.1",
 		            description: "Описание подтемы 1",
 		            isOpened:false,
+		            src: require('./right.png'),
 		            parId: 1,
 		        },
 		    	{
@@ -25,6 +28,7 @@ class Tree extends Component {
 	            	name: "1.1.1",
 	            	description: "Описание подтемы 1",
 	            	isOpened:false,
+	            	src: require('./right.png'),
 	            	parId: 2,
 	            },
 	            {
@@ -32,6 +36,7 @@ class Tree extends Component {
 	            	name: "1.1.2",
 	            	description: "Описание подтемы 2",
 	            	isOpened:false,
+	            	src: require('./right.png'),
 	            	parId: 2,
 	            },
 	            {
@@ -39,6 +44,7 @@ class Tree extends Component {
 	            	name: "1.1.3",
 	            	description: "Описание подтемы 3",
 	            	isOpened:false,
+	            	src: require('./right.png'),
 	            	parId: 2,
 	            },
 		        {
@@ -46,6 +52,7 @@ class Tree extends Component {
 		            name: "1.2",
 		            description: "Описание подтемы 2",
 		            isOpened:false,
+		            src: require('./right.png'),
 		            parId: 1,
 		        },
             	{
@@ -53,6 +60,7 @@ class Tree extends Component {
             		name: "1.2.1",
 	            	description: "Описание подтемы 1",
 	            	isOpened:false,
+	            	src: require('./right.png'),
 	            	parId: 3,
             	},
             	{
@@ -60,6 +68,7 @@ class Tree extends Component {
             		name: "1.2.2",
 	            	description: "Описание подтемы 2",
 	            	isOpened:false,
+	            	src: require('./right.png'),
 	            	parId: 3,
 	            },
             	{
@@ -67,6 +76,7 @@ class Tree extends Component {
             		name: "1.2.3",
 	            	description: "Описание подтемы 3",
 	            	isOpened:false,
+	            	src: require('./right.png'),
 	            	parId: 3,
             	},
 		        {
@@ -74,6 +84,7 @@ class Tree extends Component {
 		            name: "1.3",
 		            description: "Описание подтемы 3",
 		            isOpened:false,
+		            src: require('./right.png'),
 		            parId: 1,
 		        },
             	{
@@ -81,20 +92,23 @@ class Tree extends Component {
             		name: "1.3.1",
 	            	description: "Описание подтемы 1",
 	            	isOpened:false,
+	            	src: require('./right.png'),
 	            	parId: 4,
 	            },
         		{
         			id: 20,
         			name: "1.3.1.1",
         			description: "hrhrh",
-        			isOpened: false,
+        			isOpened:false,
+        			src: require('./right.png'),
         			parId: 11,
         		},
 				{
 					id: 21,
         			name: "1.3.1.1.1",
         			description: "hrhrh",
-        			isOpened: false,
+        			isOpened:false,
+        			src: require('./right.png'),
         			parId: 20,
 				},
             	{
@@ -102,6 +116,7 @@ class Tree extends Component {
 					name: "1.3.2",
 					description: "Описание подтемы 2",
 					isOpened:false,
+					src: require('./right.png'),
 					parId: 4,
 				},
             	{
@@ -109,6 +124,7 @@ class Tree extends Component {
             		name: "1.3.3",
 	            	description: "Описание подтемы 3",
 	            	isOpened:false,
+	            	src: require('./right.png'),
 	            	parId: 4,
 	        	},
 		        {
@@ -116,6 +132,7 @@ class Tree extends Component {
 		        	name: "2",
 		        	description: "Описание темы 2",
 		        	isOpened:false,
+		        	src: require('./right.png'),
 		        	parId: 0,
 		        },
 		    ]
@@ -130,7 +147,7 @@ class Tree extends Component {
 		let n = this.state.chapter.find(l => l.id === e);
 		let tree2 = this.state.chapter.slice();
 		n.isOpened = !n.isOpened;
-
+		(n.isOpened ? n.src=require('./down.png') : n.src=require('./right.png'))
 		tree2.map(leaf => (
 			leaf.id === e ? n : leaf
 		))
@@ -154,7 +171,6 @@ class Tree extends Component {
 		arr.map(l => (
 			l.id === id ? n : l
 		))
-
 		this.setState({
 			chapter: arr,
 		})
@@ -176,15 +192,23 @@ class Tree extends Component {
 	}
 
 	render() {
+		const transitionOptions = {
+			transitionName: "fade",
+			transitionEnterTimeout: 500,
+			transitionLeaveTimeout: 400
+		};
+
 		let arr = this.state.chapter.filter(l => l.parId === 0);
 		let list = arr.map(l => (
 			<div className="parent" key={l.id}>
 				<div className="info">
-					<input type="text" value={l.name} onChange={(e) => this.changeStringTit(e, l.id)}/>
-					<input type="text" className="descInput"  
+					<div className="title">
+						<img className="arrows" src={l.src} onClick={() => this.handleClick(l.id)}/>
+						<input className="name" type="text" value={l.name} onChange={(e) => this.changeStringTit(e, l.id)}/>
+					</div>
+					<textarea rows="10" cols="50"  className="descInput"  
 					value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)}/>
 				</div>
-				<button onClick={() => this.handleClick(l.id)}>Show</button>
 				<hr/>
 				<Leaf 
 					key={l.id} 
@@ -201,8 +225,10 @@ class Tree extends Component {
 			</div>
 		))
 		return (
-			<div className="leafs">
-				{list}
+			<div className="list">
+				<ReactCSSTransitionGroup {...transitionOptions}>
+					{list}
+				</ReactCSSTransitionGroup>
 			</div>
 		);
 	}
