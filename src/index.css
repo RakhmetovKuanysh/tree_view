@@ -24,8 +24,22 @@ body {
 	box-sizing: border-box;
 }
 
+.top{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .title {
-	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.tools{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
 .arrows {
@@ -35,9 +49,10 @@ body {
 }
 
 .delete {
-	position: absolute;
-	top: 10px;
-	right: 30px;
+	width: 8px;
+	margin-right: 10px;
+}
+.add{
 	width: 12px;
 }
 

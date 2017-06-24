@@ -8,6 +8,7 @@ class Tree extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			globalId: 22,
 			chapter: [
 				{
 		            id: 1,
@@ -178,6 +179,28 @@ class Tree extends Component {
 		})
 	}
 
+
+	addClick(e) {
+		let n = this.state.chapter.find(l => l.id === e)
+		let tree2 = this.state.chapter.slice()
+		let id = this.state.globalId
+
+		tree2 = [...tree2, {
+			id: id,
+			name: "",
+			description: "",
+			isOpened:false,
+			src: require('./right.png'),
+			parId: e,
+		}]
+
+		this.setState({
+			globalId: id + 1,
+			chapter: tree2
+		})
+
+	}
+
 	getArray(e) {
 		return this.state.chapter.filter(l => l.parId === e);
 	}
@@ -223,13 +246,18 @@ class Tree extends Component {
 		let list = arr.map(l => (
 			<div className="parent" key={l.id}>
 				<div className="info">
-					<div className="title">
-						<img className="arrows" src={l.src} onClick={() => this.handleClick(l.id)}/>
-						<input className="name" type="text" value={l.name} onChange={(e) => this.changeStringTit(e, l.id)}/>
-						<img className="delete" src={require('./delete.png')} onClick={() => this.deleteClick(l.id)}/>
-						<textarea rows="10" cols="50"  className="descInput"  
-						value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)}/>
+					<div className="top">
+						<div className="title">
+							<img className="arrows" src={l.src} onClick={() => this.handleClick(l.id)}/>
+							<input className="name" type="text" value={l.name} onChange={(e) => this.changeStringTit(e, l.id)}/>
+						</div>
+						<div className="tools">
+							<img className="delete" src={require('./delete.png')} onClick={() => this.deleteClick(l.id)}/>
+							<img className="add" src={require('./plus.png')} onClick={() => this.addClick(l.id)}/>
+						</div>
 					</div>
+					<textarea rows="10" cols="50"  className="descInput"  
+						value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)}/>
 				</div>
 				<hr/>
 				<Leaf 
@@ -242,6 +270,7 @@ class Tree extends Component {
 					changeClick={this.handleClick}
 					getArray={this.getArray}
 					deleteClick={this.deleteClick}
+					addClick={this.addClick}
 					handleChangeTit={this.changeStringTit}
 					handleChangeDesc={this.changeStringDesc}
 				/>
