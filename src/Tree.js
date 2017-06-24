@@ -1,6 +1,8 @@
 import React, { Component } from 'react' 
 import Leaf from './Leaf.js'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 class Tree extends Component {
 	constructor(props) {
@@ -139,6 +141,7 @@ class Tree extends Component {
 		}
 		this.getArray = this.getArray.bind(this);
 		this.handleClick = this.handleClick.bind(this);
+		this.deleteClick = this.deleteClick.bind(this);
 		this.changeStringTit = this.changeStringTit.bind(this);
 		this.changeStringDesc = this.changeStringDesc.bind(this);
 	}
@@ -156,6 +159,23 @@ class Tree extends Component {
 			chapter: tree2,
 		})
 		console.log(e);
+	}
+
+	deleteClick(e) {
+		let n = this.state.chapter.find(l => l.id === e);
+		let newParId = n.parId;
+		let tree2 = this.state.chapter.slice();
+
+		tree2.map(l => (
+			l.parId === e ? l.parId = newParId : l
+		))
+
+		var index = tree2.indexOf(n);
+		console.log(index);
+		tree2.splice(index, 1);
+		this.setState({
+			chapter: tree2,
+		})
 	}
 
 	getArray(e) {
@@ -191,6 +211,7 @@ class Tree extends Component {
 		})
 	}
 
+
 	render() {
 		const transitionOptions = {
 			transitionName: "fade",
@@ -205,9 +226,10 @@ class Tree extends Component {
 					<div className="title">
 						<img className="arrows" src={l.src} onClick={() => this.handleClick(l.id)}/>
 						<input className="name" type="text" value={l.name} onChange={(e) => this.changeStringTit(e, l.id)}/>
+						<img className="delete" src={require('./delete.png')} onClick={() => this.deleteClick(l.id)}/>
+						<textarea rows="10" cols="50"  className="descInput"  
+						value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)}/>
 					</div>
-					<textarea rows="10" cols="50"  className="descInput"  
-					value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)}/>
 				</div>
 				<hr/>
 				<Leaf 
@@ -219,6 +241,7 @@ class Tree extends Component {
 					isOpened={l.isOpened}
 					changeClick={this.handleClick}
 					getArray={this.getArray}
+					deleteClick={this.deleteClick}
 					handleChangeTit={this.changeStringTit}
 					handleChangeDesc={this.changeStringDesc}
 				/>
@@ -234,4 +257,4 @@ class Tree extends Component {
 	}
 }
 
-export default Tree
+export default DragDropContext(HTML5Backend)(Tree);

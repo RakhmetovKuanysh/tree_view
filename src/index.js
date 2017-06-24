@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Tree from './Tree';
 import './index.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const rootEl = document.getElementById('root');
+
+ReactDOM.render(
+	<Tree />,
+	rootEl
+)
