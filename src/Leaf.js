@@ -18,11 +18,14 @@ export default class Leaf extends Component {
 						<div className="top">
 							<div className="title">
 								<img className="arrows" src={l.src} onClick={() => this.props.changeClick(l.id)}/>
-								<input className="name" type="text" value={l.name} onChange={(e) => this.props.handleChangeTit(e, l.id)}/>
+								<input id={l.id} className="name" type="text" value={l.name} onChange={(e) => this.props.handleChangeTit(e, l.id)}/>
 								<div className="icons">
-									<img className="icon" src={require('./edit.png')} onClick={() => this.props.edit(l.id)}/>
-									<img className="icon" src={require('./delete.png')} onClick={() => this.props.deleteClick(l.id)}/>
-									<img className="icon" src={require('./plus.png')} onClick={() => this.props.addClick(l.id)}/>
+									<img id={l.id + "edit"} className="icon" src="https://image.flaticon.com/icons/svg/148/148926.svg"  
+									onClick={() => this.props.editClick(l.id)}/>
+									<img id={l.id + "delete"} className="icon" src={require('./delete.png')} 
+									onClick={() => this.props.deleteClick(l.id)}/>
+									<img id={l.id + "plus"} className="icon" src={require('./plus.png')} 
+									onClick={() => this.props.addClick(l.id)}/>
 								</div>
 							</div>
 						</div>
@@ -39,6 +42,7 @@ export default class Leaf extends Component {
 						changeClick={this.props.changeClick}
 						deleteClick={this.props.deleteClick}
 						addClick={this.props.addClick}
+						editClick={this.props.editClick}
 						getArray={this.props.getArray}
 						handleChangeTit={this.props.handleChangeTit}
 						handleChangeDesc={this.props.handleChangeDesc}

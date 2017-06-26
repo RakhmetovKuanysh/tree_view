@@ -110,3 +110,8 @@ hr {
 	width: 16%;
 	float: right;
 }
+
+input[type="text"][disabled] {
+	background-color: white;
+	color: black;
+}

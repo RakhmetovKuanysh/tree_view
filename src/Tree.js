@@ -146,6 +146,7 @@ class Tree extends Component {
 		this.changeStringTit = this.changeStringTit.bind(this);
 		this.changeStringDesc = this.changeStringDesc.bind(this);
 		this.addClick = this.addClick.bind(this);
+		this.editClick = this.editClick.bind(this);
 	}
 
 	handleClick(e){
@@ -235,6 +236,21 @@ class Tree extends Component {
 		})
 	}
 
+	editClick(e) {
+		var pic = document.getElementById(e + "edit");
+		if(pic.src === "https://image.flaticon.com/icons/svg/148/148926.svg") {
+			var elem = document.getElementById(e);
+			elem.removeAttribute("disabled");
+			elem.focus();
+			pic.src = "https://image.flaticon.com/icons/svg/363/363205.svg";
+		} else if(pic.src === "https://image.flaticon.com/icons/svg/363/363205.svg") {
+			pic.src = "https://image.flaticon.com/icons/svg/148/148926.svg"
+			var elem = document.getElementById(e);
+			elem.setAttribute("disabled", "disabled");
+			pic.focus();
+		}
+	}
+
 
 	render() {
 		const transitionOptions = {
@@ -249,12 +265,15 @@ class Tree extends Component {
 				<div className="info">
 					<div className="top">
 						<div className="title">
-							<img className="arrows" src={l.src} onClick={() => this.handleClick(l.id)}/>
-							<input className="name" type="text" value={l.name} onChange={(e) => this.changeStringTit(e, l.id)}/>
+							<img className="arrows" alt="" src={l.src} onClick={() => this.handleClick(l.id)}/>
+							<input id={l.id} className="name" type="text" value={l.name} disabled onChange={(e) => this.changeStringTit(e, l.id)}/>
 							<div className="icons">
-								<img className="icon" src={require('./edit.png')} onClick={() => this.edit(l.id)}/>
-								<img className="icon" src={require('./delete.png')} onClick={() => this.deleteClick(l.id)}/>
-								<img className="icon" src={require('./plus.png')} onClick={() => this.addClick(l.id)}/>
+								<img className="icon" alt="" id={l.id + "edit"} src="https://image.flaticon.com/icons/svg/148/148926.svg" 
+								onClick={() => this.editClick(l.id)}/>
+								<img className="icon" alt="" id={l.id + "delete"} src={require('./delete.png')} 
+								onClick={() => this.deleteClick(l.id)}/>
+								<img className="icon" alt="" id={l.id + "plus"} src={require('./plus.png')} 
+								onClick={() => this.addClick(l.id)}/>
 							</div>
 						</div>
 					</div>
@@ -272,6 +291,7 @@ class Tree extends Component {
 					changeClick={this.handleClick}
 					getArray={this.getArray}
 					deleteClick={this.deleteClick}
+					editClick={this.editClick}
 					addClick={this.addClick}
 					handleChangeTit={this.changeStringTit}
 					handleChangeDesc={this.changeStringDesc}
