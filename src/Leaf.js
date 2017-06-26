@@ -18,7 +18,7 @@ export default class Leaf extends Component {
 						<div className="top">
 							<div className="title">
 								<img className="arrows" src={l.src} onClick={() => this.props.changeClick(l.id)}/>
-								<input id={l.id} className="name" type="text" value={l.name} onChange={(e) => this.props.handleChangeTit(e, l.id)}/>
+								<input id={l.id} className="name" disabled type="text" value={l.name} onChange={(e) => this.props.handleChangeTit(e, l.id)}/>
 								<div className="icons">
 									<img id={l.id + "edit"} className="icon" src="https://image.flaticon.com/icons/svg/148/148926.svg"  
 									onClick={() => this.props.editClick(l.id)}/>

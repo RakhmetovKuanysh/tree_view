@@ -4,142 +4,126 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
+const st = [
+	{
+        id: 1,
+        name: "1",
+        description: "Описание темы 1",
+        parId: 0,
+    },
+    {
+        id: 2,
+        name: "1.1",
+        description: "Описание подтемы 1",
+        parId: 1,
+    },
+	{
+    	id: 5,
+    	name: "1.1.1",
+    	description: "Описание подтемы 1",
+    	parId: 2,
+    },
+    {
+    	id: 6,
+    	name: "1.1.2",
+    	description: "Описание подтемы 2",
+    	parId: 2,
+    },
+    {
+    	id: 7,
+    	name: "1.1.3",
+    	description: "Описание подтемы 3",
+    	parId: 2,
+    },
+    {
+        id: 3,
+        name: "1.2",
+        description: "Описание подтемы 2",
+        parId: 1,
+    },
+	{
+		id: 8,
+		name: "1.2.1",
+    	description: "Описание подтемы 1",
+    	parId: 3,
+	},
+	{
+		id: 9,
+		name: "1.2.2",
+    	description: "Описание подтемы 2",
+    	parId: 3,
+    },
+	{
+		id: 10,
+		name: "1.2.3",
+    	description: "Описание подтемы 3",
+    	parId: 3,
+	},
+    {
+        id: 4,
+        name: "1.3",
+        description: "Описание подтемы 3",
+        parId: 1,
+    },
+	{
+		id: 11,
+		name: "1.3.1",
+    	description: "Описание подтемы 1",
+    	parId: 4,
+    },
+	{
+		id: 20,
+		name: "1.3.1.1",
+		description: "hrhrh",
+		parId: 11,
+	},
+	{
+		id: 21,
+		name: "1.3.1.1.1",
+		description: "hrhrh",
+		parId: 20,
+	},
+	{
+		id: 12,
+		name: "1.3.2",
+		description: "Описание подтемы 2",
+		parId: 4,
+	},
+	{
+		id: 13,
+		name: "1.3.3",
+    	description: "Описание подтемы 3",
+    	parId: 4,
+	},
+    {
+    	id: 14,
+    	name: "2",
+    	description: "Описание темы 2",
+    	parId: 0,
+    },
+];
+/*
+(function() {
+	st.map(l = (
+		l.isOpened = false,
+        l.src = require("./right.png"),
+	))
+}());
+*/
+
 class Tree extends Component {
 	constructor(props) {
+		for(var i=0;i<st.length;i++) {
+			st[i].isOpened = false;
+			st[i].src = require('./right.png');
+		}
+
 		super(props);
 		this.state = {
 			globalId: 22,
-			chapter: [
-				{
-		            id: 1,
-		            name: "1",
-		            description: "Описание темы 1",
-		            isOpened:false,
-		            src: require("./right.png"),
-		            parId: 0,
-		        },
-		        {
-		            id: 2,
-		            name: "1.1",
-		            description: "Описание подтемы 1",
-		            isOpened:false,
-		            src: require('./right.png'),
-		            parId: 1,
-		        },
-		    	{
-	            	id: 5,
-	            	name: "1.1.1",
-	            	description: "Описание подтемы 1",
-	            	isOpened:false,
-	            	src: require('./right.png'),
-	            	parId: 2,
-	            },
-	            {
-	            	id: 6,
-	            	name: "1.1.2",
-	            	description: "Описание подтемы 2",
-	            	isOpened:false,
-	            	src: require('./right.png'),
-	            	parId: 2,
-	            },
-	            {
-	            	id: 7,
-	            	name: "1.1.3",
-	            	description: "Описание подтемы 3",
-	            	isOpened:false,
-	            	src: require('./right.png'),
-	            	parId: 2,
-	            },
-		        {
-		            id: 3,
-		            name: "1.2",
-		            description: "Описание подтемы 2",
-		            isOpened:false,
-		            src: require('./right.png'),
-		            parId: 1,
-		        },
-            	{
-            		id: 8,
-            		name: "1.2.1",
-	            	description: "Описание подтемы 1",
-	            	isOpened:false,
-	            	src: require('./right.png'),
-	            	parId: 3,
-            	},
-            	{
-            		id: 9,
-            		name: "1.2.2",
-	            	description: "Описание подтемы 2",
-	            	isOpened:false,
-	            	src: require('./right.png'),
-	            	parId: 3,
-	            },
-            	{
-            		id: 10,
-            		name: "1.2.3",
-	            	description: "Описание подтемы 3",
-	            	isOpened:false,
-	            	src: require('./right.png'),
-	            	parId: 3,
-            	},
-		        {
-		            id: 4,
-		            name: "1.3",
-		            description: "Описание подтемы 3",
-		            isOpened:false,
-		            src: require('./right.png'),
-		            parId: 1,
-		        },
-            	{
-            		id: 11,
-            		name: "1.3.1",
-	            	description: "Описание подтемы 1",
-	            	isOpened:false,
-	            	src: require('./right.png'),
-	            	parId: 4,
-	            },
-        		{
-        			id: 20,
-        			name: "1.3.1.1",
-        			description: "hrhrh",
-        			isOpened:false,
-        			src: require('./right.png'),
-        			parId: 11,
-        		},
-				{
-					id: 21,
-        			name: "1.3.1.1.1",
-        			description: "hrhrh",
-        			isOpened:false,
-        			src: require('./right.png'),
-        			parId: 20,
-				},
-            	{
-					id: 12,
-					name: "1.3.2",
-					description: "Описание подтемы 2",
-					isOpened:false,
-					src: require('./right.png'),
-					parId: 4,
-				},
-            	{
-            		id: 13,
-            		name: "1.3.3",
-	            	description: "Описание подтемы 3",
-	            	isOpened:false,
-	            	src: require('./right.png'),
-	            	parId: 4,
-	        	},
-		        {
-		        	id: 14,
-		        	name: "2",
-		        	description: "Описание темы 2",
-		        	isOpened:false,
-		        	src: require('./right.png'),
-		        	parId: 0,
-		        },
-		    ]
+			chapter: st,
 		}
+
 		this.getArray = this.getArray.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.deleteClick = this.deleteClick.bind(this);
