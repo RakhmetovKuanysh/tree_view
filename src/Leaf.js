@@ -19,10 +19,11 @@ export default class Leaf extends Component {
 							<div className="title">
 								<img className="arrows" src={l.src} onClick={() => this.props.changeClick(l.id)}/>
 								<input className="name" type="text" value={l.name} onChange={(e) => this.props.handleChangeTit(e, l.id)}/>
-							</div>
-							<div className="tools">
-								<img className="delete" src={require('./delete.png')} onClick={() => this.props.deleteClick(l.id)}/>
-								<img className="add" src={require('./plus.png')} onClick={() => this.props.addClick(l.id)}/>
+								<div className="icons">
+									<img className="icon" src={require('./edit.png')} onClick={() => this.props.edit(l.id)}/>
+									<img className="icon" src={require('./delete.png')} onClick={() => this.props.deleteClick(l.id)}/>
+									<img className="icon" src={require('./plus.png')} onClick={() => this.props.addClick(l.id)}/>
+								</div>
 							</div>
 						</div>
 						<textarea rows="10" cols="50" className="descInput" value={l.description}

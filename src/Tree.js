@@ -145,6 +145,7 @@ class Tree extends Component {
 		this.deleteClick = this.deleteClick.bind(this);
 		this.changeStringTit = this.changeStringTit.bind(this);
 		this.changeStringDesc = this.changeStringDesc.bind(this);
+		this.addClick = this.addClick.bind(this);
 	}
 
 	handleClick(e){
@@ -250,10 +251,11 @@ class Tree extends Component {
 						<div className="title">
 							<img className="arrows" src={l.src} onClick={() => this.handleClick(l.id)}/>
 							<input className="name" type="text" value={l.name} onChange={(e) => this.changeStringTit(e, l.id)}/>
-						</div>
-						<div className="tools">
-							<img className="delete" src={require('./delete.png')} onClick={() => this.deleteClick(l.id)}/>
-							<img className="add" src={require('./plus.png')} onClick={() => this.addClick(l.id)}/>
+							<div className="icons">
+								<img className="icon" src={require('./edit.png')} onClick={() => this.edit(l.id)}/>
+								<img className="icon" src={require('./delete.png')} onClick={() => this.deleteClick(l.id)}/>
+								<img className="icon" src={require('./plus.png')} onClick={() => this.addClick(l.id)}/>
+							</div>
 						</div>
 					</div>
 					<textarea rows="10" cols="50"  className="descInput"  
