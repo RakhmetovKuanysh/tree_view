@@ -29,8 +29,8 @@ export default class Leaf extends Component {
 								</div>
 							</div>
 						</div>
-						<textarea rows="10" cols="50" className="descInput" value={l.description}
-							 onChange={(e) => this.props.handleChangeDesc(e, l.id)}/>
+						<textarea id={l.id+"description"} rows="10" cols="50" disabled className="descInput" value={l.description}
+							 onChange={(e) => this.props.handleChangeDesc(e, l.id)} />
 					</div>
 					<hr/>
 					<Leaf 
@@ -59,6 +59,12 @@ export default class Leaf extends Component {
 			transitionEnterTimeout: 500,
 			transitionLeaveTimeout: 400
 		};
+		let newChapter = () => {
+			console.log("ok")
+			if(!this.props.wasEdited){
+				this.editClick(this.props.globalId - 1)
+			}
+		}
 		return (
 			<div className="leafs">
 				<ReactCSSTransitionGroup {...transitionOptions}>

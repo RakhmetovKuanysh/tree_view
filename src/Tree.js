@@ -8,13 +8,16 @@ class Tree extends Component {
 	constructor(props) {
 		super(props);
 		var st = this.props.chapter;
+		var id = 0;
 		for(var i=0;i<st.length;i++) {
 			st[i].isOpened = false;
 			st[i].src = require('./right.png');
+			id = Math.max(id, st[i].id)
 		}
 
 		this.state = {
-			globalId: 22,
+			wasEdited: false,
+			globalId: id,
 			chapter: st,
 		}
 
@@ -25,7 +28,6 @@ class Tree extends Component {
 		this.changeStringDesc = this.changeStringDesc.bind(this);
 		this.addClick = this.addClick.bind(this);
 		this.editClick = this.editClick.bind(this);
-		/*this.textAreaAdjust = this.textAreaAdjust.bind(this);*/
 	}
 
 	handleClick(e){
@@ -62,7 +64,6 @@ class Tree extends Component {
 
 
 	addClick(e) {
-		let n = this.state.chapter.find(l => l.id === e)
 		let tree2 = this.state.chapter.slice()
 		let id = this.state.globalId
 
@@ -80,8 +81,8 @@ class Tree extends Component {
 			l.id === e ? l.src = require('./down.png') : l
 		))
 
-
 		this.setState({
+			wasEdited: false,
 			globalId: id + 1,
 			chapter: tree2
 		})
@@ -121,19 +122,28 @@ class Tree extends Component {
 
 	editClick(e) {
 		var pic = document.getElementById(e + "edit");
-		var elem;
-
+		var elem = document.getElementById(e);;
+		var desc = document.getElementById(e+"description");
+		console.log(desc)
 		if(pic.src === "https://image.flaticon.com/icons/svg/148/148926.svg") {
-			elem = document.getElementById(e);
 			elem.removeAttribute("disabled");
+			desc.removeAttribute("disabled");
+			// newTree <- oldTree.slice()
+			// e - new eleemnt ...
+			// s.isDisabed = false;
+
+			// this.setState(newTree)
 			elem.focus();
 			pic.src = "https://image.flaticon.com/icons/svg/363/363205.svg";
 		} else if(pic.src === "https://image.flaticon.com/icons/svg/363/363205.svg") {
 			pic.src = "https://image.flaticon.com/icons/svg/148/148926.svg"
-			elem = document.getElementById(e);
 			elem.setAttribute("disabled", "disabled");
-			pic.focus();
+			desc.setAttribute("disabled", "disabled");
 		}
+
+		this.setState({
+			wasEdited: true
+		})
 	}
 
 	render() {
@@ -142,7 +152,6 @@ class Tree extends Component {
 			transitionEnterTimeout: 500,
 			transitionLeaveTimeout: 400
 		};
-
 		let arr = this.state.chapter.filter(l => l.parId === 0);
 		let list = arr.map(l => (
 			<div className="parent" key={l.id}>
@@ -152,7 +161,7 @@ class Tree extends Component {
 							<img className="arrows" alt="" src={l.src} onClick={() => this.handleClick(l.id)}/>
 							<input id={l.id} className="name" type="text" value={l.name} disabled onChange={(e) => this.changeStringTit(e, l.id)}/>
 							<div className="icons">
-								<img className="icon" alt="" id={l.id + "edit"} src={require('./edit-tools.png')} 
+								<img className="icon" alt="" id={l.id + "edit"} src="https://image.flaticon.com/icons/svg/148/148926.svg" 
 								onClick={() => this.editClick(l.id)}/>
 								<img className="icon" alt="" id={l.id + "delete"} src={require('./delete.png')} 
 								onClick={() => this.deleteClick(l.id)}/>
@@ -161,8 +170,8 @@ class Tree extends Component {
 							</div>
 						</div>
 					</div>
-					<textarea onKeyUp={this.textAreaAdjust} rows="10" cols="50"  className="descInput"  
-						value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)} />
+					<textarea id={l.id + "description"} onKeyUp={this.textAreaAdjust} rows="10" cols="50"  className="descInput"  
+						value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)} disabled/>
 				</div>
 				<hr/>
 				<Leaf 
@@ -182,6 +191,16 @@ class Tree extends Component {
 				/>
 			</div>
 		))
+		// if (!this.state.wasEdited) {
+		// 	console.log(this.state.globalId - 1)
+		// 	this.editClick(this.state.globalId - 1)
+		// }
+		// let newChapter = () => {
+		// 	console.log("ok")
+		// 	if(!this.state.wasEdited){
+		// 		this.editClick(this.props.globalId - 1)
+		// 	}
+		// }
 		return (
 			<div className="list">
 				<ReactCSSTransitionGroup {...transitionOptions}>
