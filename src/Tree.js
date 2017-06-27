@@ -62,6 +62,7 @@ class Tree extends Component {
 
 
 	addClick(e) {
+		let n = this.state.chapter.find(l => l.id === e)
 		let tree2 = this.state.chapter.slice()
 		let id = this.state.globalId
 
@@ -73,6 +74,12 @@ class Tree extends Component {
 			src: require('./right.png'),
 			parId: e,
 		}]
+
+		tree2.map(l => (
+			l.id === e ? l.isOpened = true : l,
+			l.id === e ? l.src = require('./down.png') : l
+		))
+
 
 		this.setState({
 			globalId: id + 1,
@@ -129,11 +136,6 @@ class Tree extends Component {
 		}
 	}
 
-/*	textAreaAdjust(o) {
-		o.style.height = "1px";
-		o.style.height = (25+o.scrollHeight)+"px";
-	}
-*/
 	render() {
 		const transitionOptions = {
 			transitionName: "fade",
@@ -150,7 +152,7 @@ class Tree extends Component {
 							<img className="arrows" alt="" src={l.src} onClick={() => this.handleClick(l.id)}/>
 							<input id={l.id} className="name" type="text" value={l.name} disabled onChange={(e) => this.changeStringTit(e, l.id)}/>
 							<div className="icons">
-								<img className="icon" alt="" id={l.id + "edit"} src="https://image.flaticon.com/icons/svg/148/148926.svg" 
+								<img className="icon" alt="" id={l.id + "edit"} src={require('./edit-tools.png')} 
 								onClick={() => this.editClick(l.id)}/>
 								<img className="icon" alt="" id={l.id + "delete"} src={require('./delete.png')} 
 								onClick={() => this.deleteClick(l.id)}/>
@@ -160,7 +162,7 @@ class Tree extends Component {
 						</div>
 					</div>
 					<textarea onKeyUp={this.textAreaAdjust} rows="10" cols="50"  className="descInput"  
-						value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)}/>
+						value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)} />
 				</div>
 				<hr/>
 				<Leaf 
@@ -185,6 +187,8 @@ class Tree extends Component {
 				<ReactCSSTransitionGroup {...transitionOptions}>
 					{list}
 				</ReactCSSTransitionGroup>
+				<h5 className="mainIcon" onClick={() => this.addClick(0)}>
+													Добавить новую тему</h5>
 			</div>
 		);
 	}
