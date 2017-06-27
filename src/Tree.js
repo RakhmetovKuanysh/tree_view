@@ -4,121 +4,15 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-const st = [
-	{
-        id: 1,
-        name: "1",
-        description: "Описание темы 1",
-        parId: 0,
-    },
-    {
-        id: 2,
-        name: "1.1",
-        description: "Описание подтемы 1",
-        parId: 1,
-    },
-	{
-    	id: 5,
-    	name: "1.1.1",
-    	description: "Описание подтемы 1",
-    	parId: 2,
-    },
-    {
-    	id: 6,
-    	name: "1.1.2",
-    	description: "Описание подтемы 2",
-    	parId: 2,
-    },
-    {
-    	id: 7,
-    	name: "1.1.3",
-    	description: "Описание подтемы 3",
-    	parId: 2,
-    },
-    {
-        id: 3,
-        name: "1.2",
-        description: "Описание подтемы 2",
-        parId: 1,
-    },
-	{
-		id: 8,
-		name: "1.2.1",
-    	description: "Описание подтемы 1",
-    	parId: 3,
-	},
-	{
-		id: 9,
-		name: "1.2.2",
-    	description: "Описание подтемы 2",
-    	parId: 3,
-    },
-	{
-		id: 10,
-		name: "1.2.3",
-    	description: "Описание подтемы 3",
-    	parId: 3,
-	},
-    {
-        id: 4,
-        name: "1.3",
-        description: "Описание подтемы 3",
-        parId: 1,
-    },
-	{
-		id: 11,
-		name: "1.3.1",
-    	description: "Описание подтемы 1",
-    	parId: 4,
-    },
-	{
-		id: 20,
-		name: "1.3.1.1",
-		description: "hrhrh",
-		parId: 11,
-	},
-	{
-		id: 21,
-		name: "1.3.1.1.1",
-		description: "hrhrh",
-		parId: 20,
-	},
-	{
-		id: 12,
-		name: "1.3.2",
-		description: "Описание подтемы 2",
-		parId: 4,
-	},
-	{
-		id: 13,
-		name: "1.3.3",
-    	description: "Описание подтемы 3",
-    	parId: 4,
-	},
-    {
-    	id: 14,
-    	name: "2",
-    	description: "Описание темы 2",
-    	parId: 0,
-    },
-];
-/*
-(function() {
-	st.map(l = (
-		l.isOpened = false,
-        l.src = require("./right.png"),
-	))
-}());
-*/
-
 class Tree extends Component {
 	constructor(props) {
+		super(props);
+		var st = this.props.chapter;
 		for(var i=0;i<st.length;i++) {
 			st[i].isOpened = false;
 			st[i].src = require('./right.png');
 		}
 
-		super(props);
 		this.state = {
 			globalId: 22,
 			chapter: st,
@@ -131,6 +25,7 @@ class Tree extends Component {
 		this.changeStringDesc = this.changeStringDesc.bind(this);
 		this.addClick = this.addClick.bind(this);
 		this.editClick = this.editClick.bind(this);
+		/*this.textAreaAdjust = this.textAreaAdjust.bind(this);*/
 	}
 
 	handleClick(e){
@@ -167,7 +62,6 @@ class Tree extends Component {
 
 
 	addClick(e) {
-		let n = this.state.chapter.find(l => l.id === e)
 		let tree2 = this.state.chapter.slice()
 		let id = this.state.globalId
 
@@ -192,7 +86,6 @@ class Tree extends Component {
 	}
 
 	changeStringTit(e, id) {
-		console.log(e.target.value);
 		let arr = this.state.chapter.slice();
 		let n = arr.find(l => l.id === id);
 		n.name = e.target.value;
@@ -206,7 +99,6 @@ class Tree extends Component {
 	}
 
 	changeStringDesc(e, id) {
-		console.log(e.target.value);
 		let arr = this.state.chapter.slice();
 		let n = arr.find(l => l.id === id);
 		n.description = e.target.value;
@@ -222,20 +114,26 @@ class Tree extends Component {
 
 	editClick(e) {
 		var pic = document.getElementById(e + "edit");
+		var elem;
+
 		if(pic.src === "https://image.flaticon.com/icons/svg/148/148926.svg") {
-			var elem = document.getElementById(e);
+			elem = document.getElementById(e);
 			elem.removeAttribute("disabled");
 			elem.focus();
 			pic.src = "https://image.flaticon.com/icons/svg/363/363205.svg";
 		} else if(pic.src === "https://image.flaticon.com/icons/svg/363/363205.svg") {
 			pic.src = "https://image.flaticon.com/icons/svg/148/148926.svg"
-			var elem = document.getElementById(e);
+			elem = document.getElementById(e);
 			elem.setAttribute("disabled", "disabled");
 			pic.focus();
 		}
 	}
 
-
+/*	textAreaAdjust(o) {
+		o.style.height = "1px";
+		o.style.height = (25+o.scrollHeight)+"px";
+	}
+*/
 	render() {
 		const transitionOptions = {
 			transitionName: "fade",
@@ -261,7 +159,7 @@ class Tree extends Component {
 							</div>
 						</div>
 					</div>
-					<textarea rows="10" cols="50"  className="descInput"  
+					<textarea onKeyUp={this.textAreaAdjust} rows="10" cols="50"  className="descInput"  
 						value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)}/>
 				</div>
 				<hr/>
