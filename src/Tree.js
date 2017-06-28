@@ -122,6 +122,7 @@ class Tree extends Component {
 		})
 	}
 
+<<<<<<< HEAD
 	editClick(e) {
 		/*console.log(e);
 		let obj = this.state.chapter.find(l => l.id === e);
@@ -157,7 +158,30 @@ class Tree extends Component {
 			pic.src = require('./edit.png');
 			elem.setAttribute("disabled", "disabled");
 			desc.setAttribute("disabled", "disabled");
+=======
+	editClick(e) {	
+		let arr = this.state.chapter.slice();
+		let n = arr.find(l => l.id === e);
+
+		if(n.editImg === require('./edit-tools.png')){
+			n.editImg = require('./edit.png')
+			n.disabled = "disabled"
+			n.focus = ""
+		} else{
+			n.editImg = require('./edit-tools.png')
+			n.disabled = ""
+			n.focus = "autoFocus"
+>>>>>>> cbc7662232cad10cabf3251ff52628b62b574307
 		}
+
+		console.log(n.disabled)
+		arr.map(l => (
+			l.id === e ? n : l
+		))
+
+		this.setState({
+			chapter: arr,
+		})
 	}
 
 	render() {
