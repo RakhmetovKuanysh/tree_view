@@ -16,11 +16,10 @@ class Tree extends Component {
 		}
 
 		this.state = {
-			wasEdited: false,
-			globalId: id,
+			wasEdited: true,
+			globalId: id + 1,
 			chapter: st,
 		}
-
 		this.getArray = this.getArray.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.deleteClick = this.deleteClick.bind(this);
@@ -62,7 +61,6 @@ class Tree extends Component {
 		})
 	}
 
-
 	addClick(e) {
 		let tree2 = this.state.chapter.slice()
 		let id = this.state.globalId
@@ -86,7 +84,6 @@ class Tree extends Component {
 			globalId: id + 1,
 			chapter: tree2
 		})
-
 	}
 
 	getArray(e) {
@@ -128,11 +125,6 @@ class Tree extends Component {
 		if(pic.src === "https://image.flaticon.com/icons/svg/148/148926.svg") {
 			elem.removeAttribute("disabled");
 			desc.removeAttribute("disabled");
-			// newTree <- oldTree.slice()
-			// e - new eleemnt ...
-			// s.isDisabed = false;
-
-			// this.setState(newTree)
 			elem.focus();
 			pic.src = "https://image.flaticon.com/icons/svg/363/363205.svg";
 		} else if(pic.src === "https://image.flaticon.com/icons/svg/363/363205.svg") {
@@ -159,7 +151,7 @@ class Tree extends Component {
 					<div className="top">
 						<div className="title">
 							<img className="arrows" alt="" src={l.src} onClick={() => this.handleClick(l.id)}/>
-							<input id={l.id} className="name" type="text" value={l.name} disabled onChange={(e) => this.changeStringTit(e, l.id)}/>
+							<input  id={l.id} className="name" type="text" value={l.name} disabled onChange={(e) => this.changeStringTit(e, l.id)}/>
 							<div className="icons">
 								<img className="icon" alt="" id={l.id + "edit"} src="https://image.flaticon.com/icons/svg/148/148926.svg" 
 								onClick={() => this.editClick(l.id)}/>
@@ -187,20 +179,15 @@ class Tree extends Component {
 					editClick={this.editClick}
 					addClick={this.addClick}
 					handleChangeTit={this.changeStringTit}
-					handleChangeDesc={this.changeStringDesc}
-				/>
+					handleChangeDesc={this.changeStringDesc}/>
 			</div>
 		))
-		// if (!this.state.wasEdited) {
-		// 	console.log(this.state.globalId - 1)
-		// 	this.editClick(this.state.globalId - 1)
-		// }
-		// let newChapter = () => {
-		// 	console.log("ok")
-		// 	if(!this.state.wasEdited){
-		// 		this.editClick(this.props.globalId - 1)
-		// 	}
-		// }
+		let newChapter = () => {
+			console.log("ok")
+			if(!this.state.wasEdited){
+				this.editClick(this.state.globalId - 1)
+			}
+		}
 		return (
 			<div className="list">
 				<ReactCSSTransitionGroup {...transitionOptions}>
@@ -214,3 +201,8 @@ class Tree extends Component {
 }
 
 export default DragDropContext(HTML5Backend)(Tree);
+
+
+
+
+
