@@ -123,28 +123,6 @@ class Tree extends Component {
 	}
 
 	editClick(e) {
-		/*console.log(e);
-		let obj = this.state.chapter.find(l => l.id === e);
-		console.log(obj);
-
-		if(obj.editImg === require('./edit-tools.png')) {
-			obj.disabled = "disabled";
-			obj.editImg = require('./edit.png');
-			obj.focus = "";
-		} else {
-			obj.disabled = "";
-			obj.focus = "autoFocus";
-			obj.editImg = require('./edit-tools.png');
-		}
-
-		let tree2 = this.state.chapter.slice();
-		tree2.map(l => l.id === e ? obj : l);
-
-		this.setState({
-			chapter: tree2,
-		})
-
-		console.log(obj);*/
 		var pic = document.getElementById(e + "edit");
 		var elem = document.getElementById(e);
 		var desc = document.getElementById(e+"description");
@@ -211,7 +189,9 @@ class Tree extends Component {
 		}
 		return (
 			<div className="list">
-				{list}
+				<ReactCSSTransitionGroup {...transitionOptions}>
+ 					{list}
+ 				</ReactCSSTransitionGroup>
 				<h5 className="mainIcon" onClick={() => this.addClick(0)}>Добавить новую тему</h5>
 			</div>
 		);

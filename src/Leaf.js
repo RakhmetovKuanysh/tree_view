@@ -55,9 +55,7 @@ export default class Leaf extends Component {
 
 	render() {
 		const transitionOptions = {
-			transitionName: "fade",
-			transitionEnterTimeout: 500,
-			transitionLeaveTimeout: 400
+			transitionName: "fade"
 		};
 		let newChapter = () => {
 			console.log("ok")
@@ -67,7 +65,9 @@ export default class Leaf extends Component {
 		}
 		return (
 			<div className="leafs">
+				<ReactCSSTransitionGroup {...transitionOptions}>
 					{this.handleChange()}
+				</ReactCSSTransitionGroup>
 			</div>
 		);
 	}
