@@ -122,20 +122,28 @@ class Tree extends Component {
 		})
 	}
 
-	editClick(e) {
-		var pic = document.getElementById(e + "edit");
-		var elem = document.getElementById(e);
-		var desc = document.getElementById(e+"description");
-		if(pic.src === require('./edit.png')) {
-			elem.removeAttribute("disabled");
-			desc.removeAttribute("disabled");
-			elem.focus();
-			pic.src = require("./edit-tools.png");
-		} else if(pic.src === require('./edit-tools.png')) {
-			pic.src = require('./edit.png');
-			elem.setAttribute("disabled", "disabled");
-			desc.setAttribute("disabled", "disabled");
+	editClick(e) {	
+		let arr = this.state.chapter.slice();
+		let n = arr.find(l => l.id === e);
+
+		if(n.editImg === require('./edit-tools.png')){
+			n.editImg = require('./edit.png')
+			n.disabled = "disabled"
+			n.focus = ""
+		} else{
+			n.editImg = require('./edit-tools.png')
+			n.disabled = ""
+			n.focus = "autoFocus"
 		}
+
+		console.log(n.disabled)
+		arr.map(l => (
+			l.id === e ? n : l
+		))
+
+		this.setState({
+			chapter: arr,
+		})
 	}
 
 	render() {
