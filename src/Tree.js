@@ -7,16 +7,18 @@ import HTML5Backend from 'react-dnd-html5-backend';
 class Tree extends Component {
 	constructor(props) {
 		super(props);
-		var st = this.props.chapter;
+		var st = this.props.chapter.slice();
 		var id = 0;
 		for(var i=0;i<st.length;i++) {
 			st[i].isOpened = false;
 			st[i].src = require('./right.png');
+			st[i].disabled = "disabled";
+			st[i].focus = "";
+			st[i].editImg = require('./edit.png');
 			id = Math.max(id, st[i].id)
 		}
 
 		this.state = {
-			wasEdited: true,
 			globalId: id + 1,
 			chapter: st,
 		}
@@ -72,6 +74,9 @@ class Tree extends Component {
 			isOpened:false,
 			src: require('./right.png'),
 			parId: e,
+			disabled: "",
+			focus: "focused",
+			editImg: require('./edit-tools.png'),
 		}]
 
 		tree2.map(l => (
@@ -79,8 +84,8 @@ class Tree extends Component {
 			l.id === e ? l.src = require('./down.png') : l
 		))
 
+		console.log(id);
 		this.setState({
-			wasEdited: false,
 			globalId: id + 1,
 			chapter: tree2
 		})
@@ -119,23 +124,18 @@ class Tree extends Component {
 
 	editClick(e) {
 		var pic = document.getElementById(e + "edit");
-		var elem = document.getElementById(e);;
+		var elem = document.getElementById(e);
 		var desc = document.getElementById(e+"description");
-		console.log(desc)
-		if(pic.src === "https://image.flaticon.com/icons/svg/148/148926.svg") {
+		if(pic.src === require('./edit.png')) {
 			elem.removeAttribute("disabled");
 			desc.removeAttribute("disabled");
 			elem.focus();
-			pic.src = "https://image.flaticon.com/icons/svg/363/363205.svg";
-		} else if(pic.src === "https://image.flaticon.com/icons/svg/363/363205.svg") {
-			pic.src = "https://image.flaticon.com/icons/svg/148/148926.svg"
+			pic.src = require("./edit-tools.png");
+		} else if(pic.src === require('./edit-tools.png')) {
+			pic.src = require('./edit.png');
 			elem.setAttribute("disabled", "disabled");
 			desc.setAttribute("disabled", "disabled");
 		}
-
-		this.setState({
-			wasEdited: true
-		})
 	}
 
 	render() {
@@ -151,9 +151,9 @@ class Tree extends Component {
 					<div className="top">
 						<div className="title">
 							<img className="arrows" alt="" src={l.src} onClick={() => this.handleClick(l.id)}/>
-							<input  id={l.id} className="name" type="text" value={l.name} disabled onChange={(e) => this.changeStringTit(e, l.id)}/>
+							<input autoFocus={l.focus} id={l.id} className="name" type="text" value={l.name} disabled={l.disabled} onChange={(e) => this.changeStringTit(e, l.id)}/>
 							<div className="icons">
-								<img className="icon" alt="" id={l.id + "edit"} src="https://image.flaticon.com/icons/svg/148/148926.svg" 
+								<img className="icon" alt="" id={l.id + "edit"} src={l.editImg}
 								onClick={() => this.editClick(l.id)}/>
 								<img className="icon" alt="" id={l.id + "delete"} src={require('./delete.png')} 
 								onClick={() => this.deleteClick(l.id)}/>
@@ -163,7 +163,7 @@ class Tree extends Component {
 						</div>
 					</div>
 					<textarea id={l.id + "description"} onKeyUp={this.textAreaAdjust} rows="10" cols="50"  className="descInput"  
-						value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)} disabled/>
+						value={l.description} onChange={(e) => this.changeStringDesc(e, l.id)} disabled={l.disabled}/>
 				</div>
 				<hr/>
 				<Leaf 
@@ -171,7 +171,6 @@ class Tree extends Component {
 					name={l.name}
 					id={l.id}
 					description={l.description} 
-					children={l.children}
 					isOpened={l.isOpened}
 					changeClick={this.handleClick}
 					getArray={this.getArray}
@@ -190,19 +189,11 @@ class Tree extends Component {
 		}
 		return (
 			<div className="list">
-				<ReactCSSTransitionGroup {...transitionOptions}>
-					{list}
-				</ReactCSSTransitionGroup>
-				<h5 className="mainIcon" onClick={() => this.addClick(0)}>
-													Добавить новую тему</h5>
+				{list}
+				<h5 className="mainIcon" onClick={() => this.addClick(0)}>Добавить новую тему</h5>
 			</div>
 		);
 	}
 }
 
 export default DragDropContext(HTML5Backend)(Tree);
-
-
-
-
-

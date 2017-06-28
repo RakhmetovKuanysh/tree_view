@@ -18,9 +18,9 @@ export default class Leaf extends Component {
 						<div className="top">
 							<div className="title">
 								<img className="arrows" alt="" src={l.src} onClick={() => this.props.changeClick(l.id)}/>
-								<input id={l.id} className="name" disabled type="text" value={l.name} onChange={(e) => this.props.handleChangeTit(e, l.id)}/>
+								<input autoFocus={l.focus} id={l.id} className="name" disabled={l.disabled} type="text" value={l.name} onChange={(e) => this.props.handleChangeTit(e, l.id)}/>
 								<div className="icons">
-									<img id={l.id + "edit"} alt="" className="icon" src="https://image.flaticon.com/icons/svg/148/148926.svg"  
+									<img id={l.id + "edit"} alt="" className="icon" src={l.editImg}  
 									onClick={() => this.props.editClick(l.id)}/>
 									<img id={l.id + "delete"} alt="" className="icon" src={require('./delete.png')} 
 									onClick={() => this.props.deleteClick(l.id)}/>
@@ -29,7 +29,7 @@ export default class Leaf extends Component {
 								</div>
 							</div>
 						</div>
-						<textarea id={l.id+"description"} rows="10" cols="50" disabled className="descInput" value={l.description}
+						<textarea id={l.id+"description"} rows="10" cols="50" disabled={l.disabled} className="descInput" value={l.description}
 							 onChange={(e) => this.props.handleChangeDesc(e, l.id)} />
 					</div>
 					<hr/>
@@ -67,9 +67,7 @@ export default class Leaf extends Component {
 		}
 		return (
 			<div className="leafs">
-				<ReactCSSTransitionGroup {...transitionOptions}>
 					{this.handleChange()}
-				</ReactCSSTransitionGroup>
 			</div>
 		);
 	}
