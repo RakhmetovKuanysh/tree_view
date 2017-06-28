@@ -48,6 +48,7 @@ body {
 
 .mainIcon {
 	padding: 20px 5px 0 5px;
+	font-family: Arial;
 	cursor: pointer;
 }
 
